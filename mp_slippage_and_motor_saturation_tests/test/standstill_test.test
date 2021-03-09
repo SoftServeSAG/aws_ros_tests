@@ -1,0 +1,4 @@
+<launch>
+    <!-- launch test -->
+    <test test-name="standstill_test" pkg="mp_slippage_and_motor_saturation_tests" type="test_standstill_test.py" />
+</launch>

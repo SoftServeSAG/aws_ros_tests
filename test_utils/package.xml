@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>test_utils</name>
+  <version>0.0.1</version>
+  <description>
+    Package with common utils for all tests
+  </description>
+  <license>BSD</license>
+  <author email="robotics@softserveinc.com">Softserve Robotics Team</author>
+  <maintainer email="robotics@softserveinc.com">Softserve Robotics Team</maintainer>
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>rospy</depend>
+  <depend>aws_robomaker_simulation_ros_pkgs</depend>
+  
+</package>

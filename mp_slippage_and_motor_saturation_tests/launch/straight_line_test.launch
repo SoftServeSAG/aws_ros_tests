@@ -1,0 +1,31 @@
+<launch>
+    <arg name="distance" default="$(optenv ROBOT_STRAIGHT_LINE_TEST_DISTANCE 5.0)" />
+    <arg name="tolerance" default="$(optenv ROBOT_STRAIGHT_LINE_TEST_TOLERANCE 0.01)" />
+    <arg name="moved_distance_topic" default="/moved_distance"/>
+    <arg name="goal_distance_topic" default="/goal_distance"/>
+    <arg name="linear_speed_x" default="$(optenv ROBOT_STRAIGHT_LINE_TEST_LINEAR_SPEED_X 0.2)"/>
+    <arg name="amcl_pose_topic" default="/amcl_pose"/>
+    
+    <arg name="sim_timeout_seconds" default="$(optenv ROBOT_STRAIGHT_LINE_TEST_SIM_TIMEOUT_SECONDS 300)" />
+    <arg name="model_name" default="$(optenv MODEL_NAME /)" />
+    <arg name="start_time_seconds" default="$(optenv ROBOT_STRAIGHT_LINE_TEST_START_TIME_SECONDS 10)" />
+    <arg name="environment" default="$(optenv ENVIRONMENT AWS)" />
+
+    <include file="$(find mp_move_manager)/launch/move_straight_line.launch">
+        <arg name="linear_speed_x" value="$(arg linear_speed_x)"/>
+        <arg name="amcl_pose_topic" value="$(arg amcl_pose_topic)"/>
+    </include>
+
+      <!-- Test node params -->   
+    <node pkg="mp_slippage_and_motor_saturation_tests" type="straight_line_test_node.py" name="straight_line_test" output="screen" required="true">
+        <param name="sim_timeout_seconds" type="int" value="$(arg sim_timeout_seconds)" />
+        <param name="start_time_seconds" type="int" value="$(arg start_time_seconds)" /> <!-- waiting for robot is spawned and stabilized-->
+        <param name="model_name" type="string" value="$(arg model_name)" />
+        <param name="distance" value="$(arg distance)"/>
+        <param name="tolerance" value="$(arg tolerance)"/> 
+        <param name="environment" type="string" value ="$(arg environment)"/>
+        <param name="moved_distance_topic" value="$(arg moved_distance_topic)"/>
+        <param name="goal_distance_topic" value="$(arg goal_distance_topic)"/>
+    </node>
+
+ </launch>

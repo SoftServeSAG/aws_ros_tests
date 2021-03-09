@@ -1,0 +1,56 @@
+<launch>
+    <!-- topic, where path to the goal is published -->
+    <arg name="path_topic" default="/move_base/NavfnROS/plan"/>
+    <!-- service to request new goal -->
+    <arg name="goal_service" default="goal_service"/>
+    <!-- test environment -->
+    <arg name="environment" default="$(optenv ENVIRONMENT AWS)"/>
+    <!-- test timeout -->
+    <arg name="sim_timeout_seconds" default="$(optenv ROBOT_OBSTACLE_AVOIDANCE_TEST_SIM_TIMEOUT_SECONDS 300)"/>
+    <!-- obstacle sdf file (without plugins) -->
+    <arg name="obstacle_sdf_file" default="$(find softserve_simulation_common)/media/models/softserve_cube_50cm/model.sdf"/>
+    <!-- in what height obstacle should be spawned -->
+    <arg name="spawn_height" default="0.35"/>
+    <!-- the robot inflation radius -->
+    <arg name="inflation_radius" default="0.4"/>
+    <!-- coefficient for robot inflation radius, can be needed for different robots -->
+    <arg name="inflation_radius_coeff" default="1"/>
+    <!-- topic name with current map (msg type OccupancyGrid) -->
+    <arg name="occupancy_data_topic" default="map"/>
+    <!-- topic with map metadata(msg type MapMetaData) -->
+    <arg name="map_metadata_topic" default="map_metadata"/>
+    <!-- number of obstacles to spawn -->
+    <arg name="obstacle_count" default="$(optenv OBSTACLE_COUNT 1)"/>
+    <!-- number of obstacles to spawn -->
+    <arg name="obstacle_deviation" default="$(optenv OBSTACLE_DEVIATION 0.0)"/>
+
+    <!-- INTERNAL PARAMS -->
+    <!-- topic, where path distance is published -->
+    <arg name="distance_topic" value="/distance_to_goal"/>
+
+    <node pkg="mp_behaviour_tests" type="monitor_distance_to_goal_node.py" name="monitor_distance_to_goal_node" output="screen" required="true">
+        <param name="distance_topic" type="string" value="$(arg distance_topic)"/>
+        <param name="path_topic" type="string" value="$(arg path_topic)"/>
+    </node>
+
+    <node pkg="mp_behaviour_tests" type="obstacle_generator.py" name="obstacle_generator" output="screen" required="true">
+        <param name="distance_topic" type="string" value="$(arg distance_topic)"/>
+        <param name="obstacle_sdf_file" type="string" value="$(arg obstacle_sdf_file)"/>
+        <param name="path_topic" type="string" value="$(arg path_topic)"/>
+        <param name="spawn_height" type="double" value="$(arg spawn_height)"/>
+        <param name="inflation_radius" type="double" value="$(arg inflation_radius)"/>
+        <param name="inflation_radius_coeff" type="double" value="$(arg inflation_radius_coeff)"/>
+        <param name="occupancy_data_topic" type="string" value="$(arg occupancy_data_topic)"/>
+        <param name="obstacle_count" type="int" value="$(arg obstacle_count)" />
+        <param name="obstacle_deviation" type="double" value="$(arg obstacle_deviation)" />
+    </node>
+
+     <!-- Test node -->
+    <node pkg="mp_behaviour_tests" type="obstacle_avoidance_test_node.py" name="obstacle_avoidance_test_node" output="screen" required="true">
+        <param name="sim_timeout_seconds" type="int" value="$(arg sim_timeout_seconds)" />
+        <param name="environment" type="string" value ="$(arg environment)"/>
+        <param name="distance_topic" type="string" value="$(arg distance_topic)"/>
+        <param name="goal_service" type="string" value="$(arg goal_service)"/>
+    </node>
+ 
+</launch

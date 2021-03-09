@@ -1,0 +1,17 @@
+#!/usr/bin/env python
+
+from mp_move_manager.move_manager import MoveManager
+import rospy
+
+
+def main():
+    rospy.init_node('move_straight_line')
+    try:
+        move_manager = MoveManager()   
+        move_manager.straight_move()
+    except rospy.ROSInterruptException:
+        pass
+
+
+if __name__ == '__main__':
+    main()

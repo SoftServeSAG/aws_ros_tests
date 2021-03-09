@@ -1,0 +1,17 @@
+#!/usr/bin/env python
+
+from mp_move_manager.rotate_manager import RotateManager
+import rospy
+
+
+def main():
+    rospy.init_node('rotate')
+    try:
+        rotate_manager = RotateManager()
+        rotate_manager.rotate()
+    except rospy.ROSInterruptException:
+        pass
+
+
+if __name__ == '__main__':
+    main()

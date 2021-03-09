@@ -1,0 +1,4 @@
+<launch>
+    <!-- launch test -->
+    <test test-name="rotation_test" pkg="mp_slippage_and_motor_saturation_tests" type="test_rotation_test.py" />
+</launch>

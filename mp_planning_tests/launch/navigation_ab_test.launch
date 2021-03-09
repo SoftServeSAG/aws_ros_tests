@@ -1,0 +1,29 @@
+<launch>
+    <!-- test environment -->
+    <arg name="environment" default="$(optenv ENVIRONMENT AWS)"/>
+    <!-- Test timeout -->
+    <arg name="sim_timeout_seconds" default="$(optenv ROBOT_NAVIGATION_AB_TEST_SIM_TIMEOUT_SECONDS 300)"/>
+    <!-- waiting until the robot is spawned and stabilized-->
+    <arg name="start_time_seconds" default="$(optenv ROBOT_NAVIGATION_AB_TEST_START_TIME_SECONDS 10)" />
+    <!-- model name -->
+    <arg name="model_name" default="$(optenv MODEL_NAME robot)"/>
+    <!-- goal position tolerance -->
+    <arg name="goal_position_tolerance" default="$(optenv ROBOT_NAVIGATION_AB_TEST_GOAL_POSITION_TOLERANCE 0.2)"/>
+    <!-- goal orientation tolerance -->
+    <arg name="goal_orientation_tolerance" default="$(optenv ROBOT_NAVIGATION_AB_TEST_GOAL_ORIENTATION_TOLERANCE 0.2)"/>
+    <!-- service name used in navigation stack adapter -->
+    <arg name="goal_service" default="goal_service"/>
+    <!-- mode for route manager(dynamic, inorder or random) -->
+    <arg name="mode" default="$(optenv ROBOT_NAVIGATION_AB_TEST_MODE dynamic)"/>
+
+    <node pkg="mp_planning_tests" type="navigation_ab_test_node.py" name="navigation_ab_test_node" output="screen" required="true">
+        <param name="sim_timeout_seconds" type="int" value="$(arg sim_timeout_seconds)" />
+        <param name="start_time_seconds" type="int" value="$(arg start_time_seconds)" />
+        <param name="model_name" type="string" value="$(arg model_name)" />
+        <param name="environment" type="string" value ="$(arg environment)"/>
+        <param name="goal_service" type="string" value="$(arg goal_service)"/>
+        <param name="mode" type="string" value="$(arg mode)"/>
+        <param name="goal_position_tolerance" type="double" value="$(arg goal_position_tolerance)"/>
+        <param name="goal_orientation_tolerance" type="double" value="$(arg goal_orientation_tolerance)"/>
+    </node>
+</launch>

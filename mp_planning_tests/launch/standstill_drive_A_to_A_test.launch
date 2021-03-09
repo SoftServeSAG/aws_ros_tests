@@ -1,0 +1,27 @@
+<launch>
+    <!-- test environment -->
+    <arg name="environment" default="$(optenv ENVIRONMENT AWS)"/>
+    <!-- Test time_end -->
+    <arg name="sim_time_end_seconds" default="$(optenv ROBOT_STANDSTILL_DRIVE_AA_TEST_SIM_TIME_END_SECONDS 300)" />
+    <!-- waiting until the robot is spawned and stabilized-->
+    <arg name="start_time_seconds" default="$(optenv ROBOT_STANDSTILL_DRIVE_AA_TEST_START_TIME_SECONDS 10)" />
+    <!-- model name -->
+    <arg name="model_name" default="$(optenv MODEL_NAME robot)"/>
+    <!-- goal position tolerance -->
+    <arg name="goal_position_tolerance" default="$(optenv ROBOT_STANDSTILL_DRIVE_AA_TEST_GOAL_POSITION_TOLERANCE 0.2)"/>
+    <!-- goal orientation tolerance -->
+    <arg name="goal_orientation_tolerance" default="$(optenv ROBOT_STANDSTILL_DRIVE_AA_TEST_GOAL_ORIENTATION_TOLERANCE 0.2)"/>
+    <!-- service name used in navigation stack adapter -->
+    <arg name="goal_service" default="goal_service"/>
+
+      <!-- Test node params -->   
+    <node pkg="mp_planning_tests" type="standstill_drive_A_to_A_test_node.py" name="standstill_drive_from_point_A_to_point_A_test" output="screen" required="true">
+        <param name="sim_time_end_seconds" type="int" value="$(arg sim_time_end_seconds)" />
+        <param name="start_time_seconds" type="int" value="$(arg start_time_seconds)" />
+        <param name="model_name" type="string" value="$(arg model_name)" />
+        <param name="environment" type="string" value ="$(arg environment)"/>
+        <param name="goal_service" type="string" value="$(arg goal_service)"/>
+        <param name="goal_position_tolerance" type="double" value="$(arg goal_position_tolerance)"/>
+        <param name="goal_orientation_tolerance" type="double" value="$(arg goal_orientation_tolerance)"/>
+    </node>
+ </launch>

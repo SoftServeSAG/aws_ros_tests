@@ -1,0 +1,20 @@
+<launch>
+    <arg name="tolerance_position" default="$(optenv ROBOT_STANDSTILL_TEST_TOLERANCE_POSITION 0.01)" />
+    <arg name="tolerance_orientation" default="$(optenv ROBOT_STANDSTILL_TEST_TOLERANCE_ORIENTATION 0.01)" />
+    
+    <arg name="sim_timeout_seconds" default="$(optenv ROBOT_STANDSTILL_TEST_SIM_TIME_END_SECONDS 300)" />
+    <arg name="model_name" default="$(optenv MODEL_NAME /)" />
+    <arg name="start_time_seconds" default="$(optenv ROBOT_STANDSTILL_TEST_START_TIME_SECONDS 10)" />
+    <arg name="environment" default="$(optenv ENVIRONMENT AWS)" />
+
+      <!-- Test node params -->   
+    <node pkg="mp_slippage_and_motor_saturation_tests" type="standstill_test_node.py" name="standstill_test" output="screen" required="true">
+        <!-- Test node params -->
+        <param name="sim_timeout_seconds" type="int" value="$(arg sim_timeout_seconds)" />
+        <param name="model_name" type="string" value="$(arg model_name)" />
+        <param name="start_time_seconds" type="int" value="$(arg start_time_seconds)" /> <!-- waiting for robot is spawned and stabilized-->
+        <param name="tolerance_position" value="$(arg tolerance_position)"/>
+        <param name="tolerance_orientation" value="$(arg tolerance_orientation)"/>
+        <param name="environment" type="string" value ="$(arg environment)"/>
+    </node>
+ </launch>

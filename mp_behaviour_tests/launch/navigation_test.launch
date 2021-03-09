@@ -1,0 +1,32 @@
+<launch>
+    <arg name="distance_topic" default="/distance_to_goal"/>
+    <arg name="path_topic" default="/move_base/NavfnROS/plan"/>
+    <arg name="goal_tolerance" default="$(optenv ROBOT_NAVIGATION_TEST_GOAL_TOLERANCE 0.2)"/>
+    <arg name="goal_service" default="goal_service"/>
+    <arg name="mode" default="$(optenv ROBOT_NAVIGATION_TEST_MODE dynamic)"/>
+    
+    <!-- test environment -->
+    <arg name="environment" default="$(optenv ENVIRONMENT AWS)"/>
+    <!-- Test timeout -->
+    <arg name="sim_timeout_seconds" default="$(optenv ROBOT_NAVIGATION_TEST_SIM_TIMEOUT_SECONDS 300)"/>
+    <!-- amount of navigation goals for the test -->
+    <arg name="navigation_success_count" default="$(optenv ROBOT_NAVIGATION_TEST_NAVIGATION_SUCCESS_COUNT 1)" />
+
+    <node pkg="mp_behaviour_tests" type="monitor_distance_to_goal_node.py" name="monitor_distance_to_goal_node" output="screen" required="true">
+        <param name="distance_topic" type="string" value="$(arg distance_topic)"/>
+        <param name="path_topic" type="string" value="$(arg path_topic)"/>
+    </node>
+
+     <!-- Test node -->
+    <node pkg="mp_behaviour_tests" type="navigation_test_node.py" name="navigation_test_node" output="screen" required="true">
+        <param name="sim_timeout_seconds" type="int" value="$(arg sim_timeout_seconds)" />
+        <param name="navigation_success_count" type="int" value="$(arg navigation_success_count)" />
+        <param name="environment" type="string" value ="$(arg environment)"/>
+        <param name="distance_topic" type="string" value="$(arg distance_topic)"/>
+        <param name="goal_service" type="string" value="$(arg goal_service)"/>
+        <param name="goal_tolerance" type="double" value="$(arg goal_tolerance)"/>
+        <param name="mode" type="string" value="$(arg mode)"/>
+    </node>
+ 
+ 
+</launch>

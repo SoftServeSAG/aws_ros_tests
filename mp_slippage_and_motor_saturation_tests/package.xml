@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>mp_slippage_and_motor_saturation_tests</name>
+  <version>1.2.0</version>
+  <description>
+  AWS RoboMaker robot package that provides a slippage and motor saturation tests for mobile platforms
+  </description>
+  <license>BSD</license>
+  <author email="robotics@softserveinc.com">Softserve Robotics Team</author>
+  <maintainer email="robotics@softserveinc.com">Softserve Robotics Team</maintainer>
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>rospy</depend>
+  <depend>roscpp</depend>
+
+  <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>mp_move_manager</depend>
+  <depend>test_utils</depend>
+  <depend>aws_robomaker_simulation_ros_pkgs</depend>
+  <depend>robomaker_simulation_msgs</depend>
+
+  <build_depend>rostest</build_depend>
+  <build_depend>message_generation</build_depend>
+  <build_export_depend>message_runtime</build_export_depend>
+  <exec_depend>message_runtime</exec_depend>
+</package>

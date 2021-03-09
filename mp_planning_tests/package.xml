@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>mp_planning_tests</name>
+  <version>0.0.1</version>
+  <description>
+    AWS RoboMaker robot package that provides a planning tests for mobile platforms
+  </description>
+  <license>Apache 2.0</license>
+  <author email="robotics@softserveinc.com">Softserve Robotics Team</author>
+  <maintainer email="robotics@softserveinc.com">Softserve Robotics Team</maintainer>
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <exec_depend>gazebo_ros</exec_depend>
+  <exec_depend>gazebo</exec_depend>
+  <exec_depend>gazebo_plugins</exec_depend>
+
+
+  <depend>test_utils</depend>
+  <depend>softserve_simulation_common</depend>
+
+</package>

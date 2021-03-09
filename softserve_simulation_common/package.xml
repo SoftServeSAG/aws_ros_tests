@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>softserve_simulation_common</name>
+  <version>0.0.1</version>
+  <description>
+    Softserve simulation package for commonly used nodes and helpers.
+  </description>
+  <license>Apache 2.0</license>
+  <author email="robotics@softserveinc.com">Softserve Robotics Team</author>
+  <maintainer email="robotics@softserveinc.com">Softserve Robotics Team</maintainer>
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>message_generation</build_depend>
+
+  <exec_depend>gazebo_ros</exec_depend>
+  <exec_depend>gazebo</exec_depend>
+  <exec_depend>gazebo_plugins</exec_depend>
+  <exec_depend>message_runtime</exec_depend>
+
+  <!-- Route Manager -->
+
+  <depend>actionlib</depend>
+  <depend>actionlib_msgs</depend>
+
+  <!-- Export gazebo models -->
+  <export>
+    <gazebo_ros plugin_path="${prefix}/lib" gazebo_media_path="${prefix}" gazebo_model_path="${prefix}/media" />
+  </export>
+
+</package>

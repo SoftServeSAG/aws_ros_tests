@@ -1,0 +1,4 @@
+<launch>
+    <!-- launch test -->
+    <test test-name="test_calculate_distance" pkg="mp_behaviour_tests" type="test_calculate_path_distance.py" />
+</launch>

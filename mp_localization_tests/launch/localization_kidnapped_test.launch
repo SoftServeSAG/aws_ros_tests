@@ -1,0 +1,44 @@
+<launch>
+    <!-- test environment -->
+    <arg name="environment" default="$(optenv ENVIRONMENT AWS)"/>
+    <!-- Test timeout -->
+    <arg name="sim_timeout_seconds" default="$(optenv ROBOT_LOCALIZATION_KIDNAPPED_TEST_SIM_TIMEOUT_SECONDS 300)"/>
+    <!-- waiting until the robot is spawned and stabilized-->
+    <arg name="start_time_seconds" default="$(optenv ROBOT_LOCALIZATION_KIDNAPPED_TEST_START_TIME_SECONDS 10)" />
+    <!-- model name -->
+    <arg name="model_name" default="$(optenv MODEL_NAME robot)"/>
+    <!-- goal position tolerance -->
+    <arg name="localization_position_tolerance" default="$(optenv ROBOT_LOCALIZATION_KIDNAPPED_TEST_POSITION_TOLERANCE 0.2)"/>
+    <!-- goal orientation tolerance -->
+    <arg name="localization_orientation_tolerance" default="$(optenv ROBOT_LOCALIZATION_KIDNAPPED_TEST_ORIENTATION_TOLERANCE 0.2)"/>
+    <!-- service name used in navigation stack adapter -->
+    <arg name="goal_service" default="goal_service"/>
+    <!-- mode for route manager(dynamic, inorder or random) -->
+    <arg name="mode" default="$(optenv ROBOT_LOCALIZATION_KIDNAPPED_TEST_MODE dynamic)"/>
+    <!-- map frame id -->
+    <arg name="map_frame_id" default="map"/>
+    <!-- topic, where goal result is published -->
+    <arg name="goal_reached_topic_name" default="goal_reached"/>
+    <!-- topic, where the pose estimated by a localization tool is published -->
+    <arg name="localization_topic_name" default="/amcl_pose"/>
+    <!-- topic, where the initial pose for a localization tool is published -->
+    <arg name="initial_pose_topic_name" default="/initialpose"/>
+    <!-- amount of successfully navigated points -->
+    <arg name="navigation_success_count" default="$(optenv ROBOT_LOCALIZATION_KIDNAPPED_TEST_NAVIGATION_SUCCESS_COUNT 5)"/>
+
+    <node pkg="mp_localization_tests" type="localization_kidnapped_test_node.py" name="localization_kidnapped_test_node" output="screen" required="true">
+        <param name="sim_timeout_seconds" type="int" value="$(arg sim_timeout_seconds)" />
+        <param name="start_time_seconds" type="int" value="$(arg start_time_seconds)" />
+        <param name="model_name" type="string" value="$(arg model_name)" />
+        <param name="environment" type="string" value ="$(arg environment)"/>
+        <param name="goal_service" type="string" value="$(arg goal_service)"/>
+        <param name="mode" type="string" value="$(arg mode)"/>
+        <param name="map_frame_id" type="string" value="$(arg map_frame_id)"/>
+        <param name="localization_position_tolerance" type="double" value="$(arg localization_position_tolerance)"/>
+        <param name="localization_orientation_tolerance" type="double" value="$(arg localization_orientation_tolerance)"/>
+        <param name="goal_reached_topic_name" type="string" value="$(arg goal_reached_topic_name)"/>
+        <param name="localization_topic_name" type="string" value="$(arg localization_topic_name)"/>
+        <param name="initial_pose_topic_name" type="string" value="$(arg initial_pose_topic_name)"/>
+        <param name="navigation_success_count" type="int" value="$(arg navigation_success_count)"/>
+    </node>
+</launch>

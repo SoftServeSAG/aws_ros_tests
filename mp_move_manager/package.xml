@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>mp_move_manager</name>
+  <version>0.0.1</version>
+  <description>
+  Package for moving mobile platform
+  </description>
+  <license>BSD</license>
+  <author email="robotics@softserveinc.com">SoftServe Robotics Team</author>
+  <maintainer email="robotics@softserveinc.com">SoftServe Robotics Team</maintainer>
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>message_generation</build_depend>
+
+  <depend>rospy</depend>
+  <depend>roscpp</depend>
+  <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+
+</package>

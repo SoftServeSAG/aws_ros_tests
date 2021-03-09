@@ -1,0 +1,37 @@
+<launch>
+    <!-- Offset from map frame point 0 0 0 0 0 0 -->
+    <arg name="coverage_area_offset" default="-2.5 -2.5 0 0 0 0"/>
+    <!-- coverage area height, X dimension of map -->
+    <arg name="coverage_area_size_x" default="10"/>
+    <!-- coverage area width, Y dimension of map -->
+    <arg name="coverage_area_size_y" default="10"/>
+    <!-- Robot tool radius(or width/2) -->
+    <arg name="tool_radius" default="0.2"/>
+    <!-- Coverage goal, in percents -->
+    <arg name="coverage_goal" default="$(optenv ROBOT_COVERAGE_TEST_COVERAGE_GOAL 80.0)"/>
+    <!-- topic name, where coverage progress is published -->
+    <arg name="coverage_topic" default="/coverage_progress"/>
+    
+    <!-- test environment -->
+    <arg name="environment" default="$(optenv ENVIRONMENT AWS)"/>
+    <!-- Test timeout -->
+    <arg name="sim_timeout_seconds" default="$(optenv ROBOT_COVERAGE_TEST_SIM_TIMEOUT_SECONDS 300)"/>
+
+    <!-- Launch coverage progress tracking -->
+    <node pkg="tf" type="static_transform_publisher" name="map_to_coveragemap" args="$(arg coverage_area_offset) map coverage_map 100" />
+    <node pkg="mp_behaviour_tests" type="coverage_progress_node.py" name="coverage_progress">
+        <param name="~coverage_area_size_x" value="$(arg coverage_area_size_x)" />
+        <param name="~coverage_area_size_y" value="$(arg coverage_area_size_y)" />
+        <param name="~coverage_radius" value="$(arg tool_radius)" />
+        <param name="~map_frame" value="/coverage_map"/>
+        <param name="~coverage_topic" value="$(arg coverage_topic)" />
+    </node>
+
+    <!-- launch test node -->
+    <node pkg="mp_behaviour_tests" type="coverage_test_node.py" name="coverage_test" required="true">
+        <param name="sim_timeout_seconds" type="int" value="$(arg sim_timeout_seconds)" />
+        <param name="environment" type="string" value ="$(arg environment)"/>
+        <param name="coverage_topic" type="string" value="$(arg coverage_topic)"/>
+        <param name="coverage_goal" value="$(arg coverage_goal)"/>
+    </node>
+</launch>

@@ -1,0 +1,44 @@
+<launch>
+
+    <!-- test environment -->
+    <arg name="environment" default="$(optenv ENVIRONMENT AWS)"/>
+    <!-- Test timeout -->
+    <arg name="sim_timeout_seconds" default="$(optenv GOAL_TOLERANCE_TEST_SIM_TIMEOUT_SECONDS 300)"/>
+    <!-- model name -->
+    <arg name="model_name" default="$(optenv MODEL_NAME robot)"/>
+    <!-- goal position tolerance -->
+    <arg name="goal_position_tolerance" default="$(optenv GOAL_TOLERANCE_TEST_GOAL_POSITION_TOLERANCE 0.2)"/>
+    <!-- goal orientation tolerance -->
+    <arg name="goal_orientation_tolerance" default="$(optenv GOAL_TOLERANCE_TEST_GOAL_ORIENTATION_TOLERANCE 0.2)"/>
+    <!-- test time tolerance in seconds -->
+    <!-- the max difference between the time when a goal is reached in the Gazebo world and the time when the robot planner reached a goal. -->
+    <arg name="goal_time_tolerance" default="$(optenv GOAL_TOLERANCE_TEST_GOAL_TIME_TOLERANCE 5)"/>
+    <!-- service name used in navigation stack adapter -->
+    <arg name="goal_service" default="goal_service"/>
+    <!-- mode for route manager(dynamic, inorder or random) -->
+    <arg name="mode" default="$(optenv GOAL_TOLERANCE_TEST_MODE dynamic)"/>
+    <!-- topic where map metadata is published  -->
+    <arg name="map_metadata_topic" default="map_metadata"/>
+    <!-- topic name where occupancy data is published -->
+    <arg name="occupancy_data_topic" default="map"/>
+    <!-- robot radius to turn around -->
+    <arg name="inflation_radius_coeff" default="1"/>
+
+    <!-- launch test node -->
+    <node pkg="mp_planning_tests" type="goal_tolerance_test_node.py" name="goal_tolerance_test" required="true">
+        <param name="environment" type="string" value ="$(arg environment)"/>
+        <param name="sim_timeout_seconds" type="int" value="$(arg sim_timeout_seconds)" />
+        <param name="model_name" type="string" value="$(arg model_name)" />
+        <param name="goal_service" type="string" value="$(arg goal_service)"/>
+        <param name="mode" type="string" value="$(arg mode)"/>
+        <param name="goal_position_tolerance" type="double" value="$(arg goal_position_tolerance)"/>
+        <param name="goal_orientation_tolerance" type="double" value="$(arg goal_orientation_tolerance)"/>
+        <param name="goal_time_tolerance" type="int" value="$(arg goal_time_tolerance)"/>
+        <!-- args for goal generator -->
+        <param name="map_metadata_topic" type="string" value="$(arg map_metadata_topic)"/>
+        <param name="occupancy_data_topic" type="string" value="$(arg occupancy_data_topic)"/>
+        <param name="inflation_radius_coeff" type="double" value="$(arg inflation_radius_coeff)"/>
+
+    </node>
+
+</launch>

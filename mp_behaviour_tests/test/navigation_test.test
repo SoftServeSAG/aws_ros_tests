@@ -1,0 +1,4 @@
+<launch>
+    <!-- launch test -->
+    <test test-name="navigation_test" pkg="mp_behaviour_tests" type="test_navigation_test.py" />
+</launch>

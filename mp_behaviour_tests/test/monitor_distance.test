@@ -1,0 +1,10 @@
+<launch>
+    <!-- launch node what should be tested  -->
+    <node pkg="mp_behaviour_tests" type="monitor_distance_to_goal_node.py" name="monitor_distance_to_goal_node" output="screen">
+        <param name="~distance_topic" type="string" value="/distance_to_goal"/>
+        <param name="~path_topic" type="string" value="/move_base/NavfnROS/plan"/>
+    </node>
+
+    <!-- launch test -->
+    <test test-name="test_monitor_distance" pkg="mp_behaviour_tests" type="test_monitor_distance_to_goal.py"/>
+</launch>

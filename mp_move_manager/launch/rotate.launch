@@ -1,0 +1,26 @@
+<launch>
+    <arg name="velocity_topic" default="/cmd_vel"/>
+    <arg name="amcl_pose_topic" default="/amcl_pose"/>
+    <arg name="rotated_angle_topic" default="/rotated_angle"/>
+    <arg name="goal_angle_topic" default="/goal_angle"/>
+
+    <arg name="linear_speed_x" default="0.0"/>
+    <arg name="linear_speed_y" default="0.0"/>
+
+    <arg name="angular_speed_x" default="0.0"/>
+    <arg name="angular_speed_y" default="0.0"/>
+    <arg name="angular_speed_z" default="0.2"/>
+
+    <node pkg="mp_move_manager" type="rotate" name="rotate" output="screen">
+        <param name="velocity_topic" value="$(arg velocity_topic)"/>
+        <param name="amcl_pose_topic" value="$(arg amcl_pose_topic)"/>
+        <param name="rotated_angle_topic" value="$(arg rotated_angle_topic)"/>
+        <param name="goal_angle_topic" value="$(arg goal_angle_topic)"/>
+
+        <param name="linear_speed_x" value="$(arg linear_speed_x)"/>
+        <param name="linear_speed_y" value="$(arg linear_speed_y)"/>
+        <param name="angular_speed_x" value="$(arg angular_speed_x)"/>
+        <param name="angular_speed_y" value="$(arg angular_speed_y)"/>
+        <param name="angular_speed_z" value="$(arg angular_speed_z)"/>
+    </node>
+</launch>
