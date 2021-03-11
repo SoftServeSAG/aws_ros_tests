@@ -9,7 +9,7 @@ Available tests:
 -   [Planning tests](mp_planning_tests)  
     -   [Goal tolerance test](mp_planning_tests#goal-tolerance-test)  
     -   [Navigation AB test](mp_planning_tests#navigation-test-ab-robot-navigates-from-point-a-to-point-b-taking-into-account-a-goal-yaw-orientation)  
-    -   [Standstill test](mp_planning_tests#standstill-test-while-driving-from-point-a-to-point-a)  
+    -   [Standstill test while driving from point A to point A](mp_planning_tests#standstill-test-while-driving-from-point-a-to-point-a)  
 -   [Behaviour tests](mp_behaviour_tests)  
     -   [Navigation test](mp_behaviour_tests#navigation-test)
     -   [Coverage test](mp_behaviour_tests#coverage-test)
