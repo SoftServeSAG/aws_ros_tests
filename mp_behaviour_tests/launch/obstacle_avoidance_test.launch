@@ -53,4 +53,4 @@
         <param name="goal_service" type="string" value="$(arg goal_service)"/>
     </node>
  
-</launch
+</launch>
