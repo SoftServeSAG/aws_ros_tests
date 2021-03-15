@@ -35,7 +35,7 @@ class GoalToleranceTest(unittest.TestCase):
         self.test_name = "Goal_Tolerance_Test_" + str(time.time()).split(".", 1)[0]
         self.is_completed = False
         rospy.loginfo("Test Name: %s", self.test_name)
-        self.timeout = rospy.get_param("sim_timeout_seconds")
+        self.timeout = rospy.get_param("~sim_timeout_seconds")
 
         environment = rospy.get_param('~environment', Utils.AWS_ENV)
         self.goal_position_tolerance = rospy.get_param('~goal_position_tolerance', 1)
