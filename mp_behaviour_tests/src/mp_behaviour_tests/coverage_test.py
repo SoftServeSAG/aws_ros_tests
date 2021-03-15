@@ -59,9 +59,9 @@ class CoverageTest(unittest.TestCase):
         """
         if self.is_completed:
             return
-
+        
+        self.current_coverage = msg.data
         if msg.data > self.coverage_goal:
-            self.current_coverage = msg.data
             self.is_completed = True
             self.utils.set_tag(name=self.test_name + "_Status", value="Passed")
             self.is_cancelled = self.utils.cancel_job()
