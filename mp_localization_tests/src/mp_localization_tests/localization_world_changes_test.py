@@ -12,6 +12,7 @@ from std_msgs.msg import Bool
 from gazebo_msgs.msg import ModelStates, ModelState
 from geometry_msgs.msg import Pose, Point, Quaternion, PoseWithCovarianceStamped, PoseStamped
 from mp_move_manager.srv import PoseGoal, PoseGoalRequest
+from gazebo_msgs.srv import DeleteModel
 
 from test_utils.utils import Utils
 from test_utils.goal_generator import GoalGenerator
@@ -31,6 +32,10 @@ class LocalizationWorldChangesTest(unittest.TestCase):
         'inorder': lambda goals: itertools.cycle(goals),
         'random': lambda goals: (random.choice(goals) for i in itertools.count()),
         'dynamic': lambda goals: GoalGenerator()
+    }
+
+    objects_manager_modes = { 'move': lambda world_objects: itertools.cycle(world_objects), 
+                           'delete': lambda world_objects: itertools.cycle(world_objects)
     }
 
     def setUp(self):
@@ -108,12 +113,18 @@ class LocalizationWorldChangesTest(unittest.TestCase):
     def init_move_objects_manager(self):
         """Initialize move objects manager for test
         """
+        self.objects_manager_mode = rospy.get_param('~objects_manager_mode', "move")
+
+        if self.objects_manager_mode not in LocalizationWorldChangesTest.objects_manager_modes:
+            rospy.logerr("Objects move mode '%s' unknown, exiting move manager. \"move\" will be used", self.objects_manager_mode)
+            self.objects_manager_mode = "move"
+
         objects = rospy.get_param('objects', [])
         if not objects:
-            rospy.loginfo("Move objects manager initialized no objects, unable to move")
+            rospy.loginfo("Move objects manager initialized no objects, unable to move(delete)")
 
-        objects_iterator = lambda world_objects: itertools.cycle(world_objects)
-        self.objects = objects_iterator(objects)
+        self.objects = LocalizationWorldChangesTest.objects_manager_modes[self.objects_manager_mode](objects)
+        rospy.loginfo("Objects move manager initialized in %s mode", self.objects_manager_mode)
 
     def check_goal(self, msg):
         """[summary]
@@ -184,14 +195,26 @@ class LocalizationWorldChangesTest(unittest.TestCase):
         return state
 
     def move_manager_objects_world(self):
-        """Move the objects in the world"""
-        move_objects_publisher = rospy.Publisher("gazebo/set_model_state", ModelState, queue_size=10)
-        while not rospy.is_shutdown() and (move_objects_publisher.get_num_connections() == 0):
-            rospy.loginfo("Waiting for the topic gazebo/set_model_state")
-            rospy.sleep(1)
-        for i in range(self.objects_count):
-            state = self.dict_to_model_state(next(self.objects))
-            move_objects_publisher.publish(state)
+        if self.objects_manager_mode=="move":
+            """Move the objects in the world"""
+            move_objects_publisher = rospy.Publisher("gazebo/set_model_state", ModelState, queue_size=10)
+            while not rospy.is_shutdown() and (move_objects_publisher.get_num_connections() == 0):
+                rospy.loginfo("Waiting for the topic gazebo/set_model_state")
+                rospy.sleep(1)
+            for i in range(self.objects_count):
+                state = self.dict_to_model_state(next(self.objects))
+                move_objects_publisher.publish(state)
+
+        if self.objects_manager_mode=="delete":
+            try:
+                rospy.loginfo("Waiting for service /gazebo/delete_model")
+                rospy.wait_for_service('/gazebo/delete_model')
+                delete_model = rospy.ServiceProxy('/gazebo/delete_model', DeleteModel)
+                for i in range(self.objects_count):
+                    model = next(self.objects)['object']['name']
+                    delete_model(model)
+            except rospy.ServiceException as e:
+                print("Delete Model service call failed: {0}".format(e)) 
 
     def goal_request(self):
         """ Request new goal

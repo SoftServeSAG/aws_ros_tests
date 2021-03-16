@@ -52,8 +52,7 @@ During the test several tags could be set for a Robomaker Simulation Job.
 
 ## Localization test when the world's objects positions are changed
 
-The test verifies whether a localization tool localizes the robot pose correctly when the predefined amount of world's objects are moved to positions 
-that predefined in a yaml file for specific world. 
+The test verifies whether a localization tool localizes the robot pose correctly when the predefined amount of world's objects are deleted or moved to predifined poses. 
 During the test, the robot navigates through the predefined or random points until the robot reached all points or timeout occurred. 
 
 ### Prerequisites
@@ -80,6 +79,7 @@ There are several parameters to properly setup the test.Some of them could be re
 | goal_service | | name of goal serviсe used in navigation stack adapter | goal_service |
 | map_frame_id | | frame id what is used for pose publishing |map |
 | mode | ROBOT_LOCALIZATION_WORLD_CHANGES_TEST_MODE | configure mode of route manager. **dynamic** - random goals on known map, **inorder** - goals from parameters used in order, **random** - goals from parameters, random order. | dynamic |
+| objects_manager_mode | ROBOT_LOCALIZATION_WORLD_CHANGES_TEST_OBJECTS_MANAGER_MODE | configure mode of objects manager. **move** - move the objects to predifined pose, **delete** - delete objects from world. If world has only static objects that can be moved, than chose the mode **delete**. | move |
 | localization_topic_name | | topic where estimated pose is published (msg type [PoseWithCovarianceStamped](http://docs.ros.org/en/jade/api/geometry_msgs/html/msg/PoseWithCovarianceStamped.html)) |/amcl_pose |
 | goal_reached_topic_name | | topic where status of navigation to goal is published (msg type [Bool](http://docs.ros.org/en/melodic/api/std_msgs/html/msg/Bool.html)) |goal_reached |
 | navigation_success_count | ROBOT_LOCALIZATION_WORLD_CHANGES_TEST_NAVIGATION_SUCCESS_COUNT | number of goals |5|
